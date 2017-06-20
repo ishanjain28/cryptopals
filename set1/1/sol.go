@@ -1,10 +1,10 @@
 package main
 
 import (
-	"log"
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
+	"log"
 	"time"
 )
 

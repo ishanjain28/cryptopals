@@ -1,10 +1,10 @@
 package main
 
 import (
-	"log"
-	"time"
-	"math/big"
 	"fmt"
+	"log"
+	"math/big"
+	"time"
 )
 
 func main() {
@@ -29,5 +29,5 @@ func main() {
 	hexBigInt.SetString(hexString, 16)
 	xorAgainstBigInt.SetString(xorAgainst, 16)
 
-	fmt.Printf("%X\n", hexBigInt.Xor(hexBigInt, xorAgainstBigInt))
+	fmt.Printf("%s\n", hexBigInt.Xor(hexBigInt, xorAgainstBigInt).String())
 }
