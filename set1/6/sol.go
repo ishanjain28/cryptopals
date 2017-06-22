@@ -76,8 +76,8 @@ func main() {
 	decStr, _ := base64.StdEncoding.DecodeString(encStr)
 	distances := []int{}
 	keySize := 0
+	//Find the appropriate key
 	for i := 2; i < 41; i++ {
-
 		distance, err := normalizedDistance(i, decStr[:i], decStr[i:(2 * i)])
 		if err != nil {
 			log.Fatalln("Error in calculating distance", err.Error())
@@ -89,6 +89,42 @@ func main() {
 		distances = append(distances, distance)
 	}
 
+	decStrBlocks := [][]byte{}
+
+	//Divide decoded base64 bytes into blocks of length keysize
+	for i := 0; i < len(decStr); i += keySize {
+		end := i + keySize
+		if end > len(decStr) {
+			end = len(decStr)
+		}
+
+		decStrBlocks = append(decStrBlocks, decStr[i:end])
+	}
+
+	//Transpose
+	transposed := transpose(decStrBlocks, keySize)
+	for i := 0; i < len(transposed); i++ {
+		fmt.Println(string(transposed[i]))
+	}
+
+	//	TODO:Add chi-square test to find out key of each item in transposed array
+
+}
+
+func transpose(decBlocks [][]byte, keySize int) [][]byte {
+	newDecBlocks := [][]byte{}
+
+	for i := 0; i < keySize; i++ {
+		tempBlock := []byte{}
+		for j := 0; j < len(decBlocks); j++ {
+			if len(decBlocks[j]) == keySize {
+				tempBlock = append(tempBlock, decBlocks[j][i])
+			}
+		}
+		newDecBlocks = append(newDecBlocks, tempBlock)
+
+	}
+	return newDecBlocks
 }
 
 func normalizedDistance(keySize int, str1, str2 []byte) (int, error) {
