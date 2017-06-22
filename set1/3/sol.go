@@ -22,7 +22,7 @@ func main() {
 			output += string(r ^ byte(i))
 		}
 
-		spaces := len(strings.Split(string(output), " "))
+		spaces := len(strings.Split(output, " "))
 
 		isMax := maxInArray(results, spaces)
 
