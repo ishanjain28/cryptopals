@@ -117,9 +117,11 @@ func transpose(decBlocks [][]byte, keySize int) [][]byte {
 	for i := 0; i < keySize; i++ {
 		tempBlock := []byte{}
 		for j := 0; j < len(decBlocks); j++ {
-			if len(decBlocks[j]) == keySize {
+
+			for k := 0; j < len(decBlocks[j]); k++ {
 				tempBlock = append(tempBlock, decBlocks[j][i])
 			}
+
 		}
 		newDecBlocks = append(newDecBlocks, tempBlock)
 
