@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
-	"strconv"
 )
 
 /*
@@ -57,7 +56,7 @@ func maxInArray(arr []int, key int) bool {
 func scoreResult(char byte, score *int) {
 	if string(char) == " " {
 		fmt.Println("space")
-		fmt.Println(strconv.ParseInt("e", 2))
+		//fmt.Println(strconv.ParseInt("e", 2, 16))
 	}
 	//fmt.Printf("%s", string(char))
 }
