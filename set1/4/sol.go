@@ -334,51 +334,60 @@ e03555453d1e31775f37331823164c341c09e310463438481019fb0b12fa
 4c071a57e9356ee415103c5c53e254063f2019340969e30a2e381d5b2555
 32042f46431d2c44607934ed180c1028136a5f2b26092e3b2c4e2930585a`
 
+/*
+Detect single-character XOR
+One of the 60-character strings in this file has been encrypted by single-character XOR.
+
+Find it.
+
+(Your code from #3 should help.)
+ */
+
 func main() {
 	iHashes := strings.Split(IPHashes, "\n")
 
 	answer := ""
-	spaceInAnswers := []int{}
+	globalMaxScore := 0
 
-	//TODO:Space trick isn't working, Implement a proper Chi-square test to get correct answer
 	for i := range iHashes {
 		decHash, _ := hex.DecodeString(iHashes[i])
 
 		lanswer := ""
-		lanswers := []int{}
+		maxScore := 0
 
-		for j := 0; j < 255; j++ {
+		for j := 0x00; j <= 0xff; j++ {
 			output := ""
+			score := 0
 			for _, r := range decHash {
-				output += string(r ^ byte(j))
+				xor := r ^ byte(j)
+
+				output += string(xor)
+				scoreResult(xor, &score)
 			}
 
-			lspaces := len(strings.Split(output, " "))
-
-			isMax := maxInArray(lanswers, lspaces)
-			if isMax {
+			if score > maxScore {
 				lanswer = output
-			}
-			lanswers = append(lanswers, lspaces)
-		}
-		spaces := len(strings.Split(lanswer, " "))
+				maxScore = score
 
-		isMax := maxInArray(spaceInAnswers, spaces)
-		if isMax {
+			}
+		}
+
+		if maxScore > globalMaxScore {
+			globalMaxScore = maxScore
 			answer = lanswer
 		}
-		spaceInAnswers = append(spaceInAnswers, spaces)
-	}
 
+	}
 	fmt.Println(answer)
+
 }
 
-func maxInArray(arr []int, key int) bool {
-	for i := 0; i < len(arr); i++ {
-		if arr[i] >= key {
-			return false
-		}
-	}
+func scoreResult(char byte, score *int) {
 
-	return true
+	c := []rune(string(char))[0]
+
+	//Check if letters are valid english alphabets, If they are, Increase the score
+	if (c >= 97 && c <= 122) || (c <= 90 && c >= 65) || c == 32 {
+		*score++
+	}
 }

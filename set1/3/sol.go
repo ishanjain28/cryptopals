@@ -31,7 +31,7 @@ func main() {
 	//Brute force, XOR it with every byte from 0-255 and then pick the correct answer i.e. the answer with nicest/common english character
 	//One way to select best string is chi-square test, or just count the max number of spaces which can work in this case but not the most appropriate way to select correct answer
 
-	for i := 0x00; i < 0x255; i++ {
+	for i := 0x00; i <= 0xff; i++ {
 		score := 0
 		output := ""
 
