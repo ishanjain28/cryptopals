@@ -42,7 +42,7 @@ func main() {
 	bin2 := ""
 
 	//Convert everything to binary.
-	//Never work with strings directly, Work with bytes or
+	//Never work with strings directly, Work with bytes
 	for _, b := range hex1 {
 		bin1 += fmt.Sprintf("%08b ", b)
 	}

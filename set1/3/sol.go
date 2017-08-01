@@ -26,37 +26,36 @@ func main() {
 
 	//Decode hex
 	dec, _ := hex.DecodeString(hexstr)
-
+	maxScore := 0
+	answer := ""
 	//Brute force, XOR it with every byte from 0-255 and then pick the correct answer i.e. the answer with nicest/common english character
 	//One way to select best string is chi-square test, or just count the max number of spaces which can work in this case but not the most appropriate way to select correct answer
-	for i := 0; i < 255; i++ {
+
+	for i := 0x00; i < 0x255; i++ {
 		score := 0
 		output := ""
+
 		for _, r := range dec {
 			xor := r ^ byte(i)
 			output += string(xor)
 			scoreResult(xor, &score)
 		}
 
-		//spaces := len(strings.Split(output, " "))
-
-	}
-}
-
-func maxInArray(arr []int, key int) bool {
-	for i := 0; i < len(arr); i++ {
-		if arr[i] >= key {
-			return false
+		if score > maxScore {
+			answer = output
+			maxScore = score
 		}
 	}
 
-	return true
+	fmt.Println(answer)
 }
 
 func scoreResult(char byte, score *int) {
-	if string(char) == " " {
-		fmt.Println("space")
-		//fmt.Println(strconv.ParseInt("e", 2, 16))
+
+	c := []rune(string(char))[0]
+
+	//Check if letters are valid english alphabets, If they are, Increase the score
+	if (c >= 97 && c <= 122) || (c <= 90 && c >= 65) || c == 32 {
+		*score++
 	}
-	//fmt.Printf("%s", string(char))
 }
